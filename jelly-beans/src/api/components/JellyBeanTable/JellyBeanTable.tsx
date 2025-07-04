@@ -7,6 +7,32 @@ interface Props {
 }
 
 export default function JellyBeanTable({ beans }: Props) {
+  const renderBeanRow = (bean: JellyBean) => {
+    const { BeanId, ImageUrl, FlavorName, Description, GlutenFree, SugarFree, Seasonal, Kosher } = bean;
+
+    return (
+      <tr key={BeanId}>
+        <td>
+          <img src={ImageUrl} alt={FlavorName} className="table-image" />
+        </td>
+        <td>{FlavorName}</td>
+        <td title={Description}>
+          <div className="description-ellipsis">{Description}</div>
+        </td>
+        <td>
+          <AttributeIcons
+            attributes={{
+              glutenFree: GlutenFree,
+              sugarFree: SugarFree,
+              seasonal: Seasonal,
+              kosher: Kosher,
+            }}
+          />
+        </td>
+      </tr>
+    );
+  };
+
   return (
     <table className="jellybean-table">
       <thead>
@@ -17,29 +43,7 @@ export default function JellyBeanTable({ beans }: Props) {
           <th>Attributes</th>
         </tr>
       </thead>
-      <tbody>
-        {beans.map((bean) => (
-          <tr key={bean.BeanId}>
-            <td>
-              <img src={bean.ImageUrl} alt={bean.FlavorName} className="table-image" />
-            </td>
-            <td>{bean.FlavorName}</td>
-            <td title={bean.Description}>
-              <div className="description-ellipsis">{bean.Description}</div>
-            </td>
-            <td>
-            <AttributeIcons
-              attributes={{
-                glutenFree: bean.GlutenFree,
-                sugarFree: bean.SugarFree,
-                seasonal: bean.Seasonal,
-                kosher: bean.Kosher,
-              }}
-            />
-            </td>
-          </tr>
-        ))}
-      </tbody>
+      <tbody>{beans.map(renderBeanRow)}</tbody>
     </table>
   );
 }
