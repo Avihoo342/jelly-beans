@@ -1,0 +1,26 @@
+.jellybean-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .jellybean-table th,
+  .jellybean-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+    vertical-align: middle;
+  }
+  
+  .table-image {
+    width: 50px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .description-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 300px;
+  }

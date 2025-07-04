@@ -1,0 +1,25 @@
+.attr-icons {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .attr-icon {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #eee;
+    color: #999;
+  }
+  
+  .attr-icon.active {
+    background-color: #4caf50;
+    color: white;
+  }
+  
+  .attr-icon.inactive {
+    background-color: #eee;
+    color: #aaa;
+  }
+

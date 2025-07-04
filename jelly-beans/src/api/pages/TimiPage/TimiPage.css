@@ -1,0 +1,22 @@
+.timi-page {
+    padding: 20px;
+  }
+  
+  .bean-grid, .combo-beans {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+  
+  .combo-card {
+    border: 1px solid #ddd;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    background: #fffbe6;
+  }
+  
+  .combo-card h4 {
+    margin-bottom: 12px;
+  }

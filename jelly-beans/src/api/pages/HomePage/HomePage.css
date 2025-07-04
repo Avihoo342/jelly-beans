@@ -1,0 +1,81 @@
+.homepage-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .homepage-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  h1 {
+    font-size: 2rem;
+    color: #d94862;
+  }
+  
+  .toggle-view-btn {
+    padding: 0.5rem 1rem;
+    background-color: #ffd6dd;
+    border: 1px solid #d94862;
+    color: #d94862;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .toggle-view-btn:hover {
+    background-color: #ffeef1;
+  }
+  
+  .grid-view {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .loader-container {
+    display: flex;
+    justify-content: center;
+    padding: 4rem;
+  }
+  
+  .loader {
+    border: 6px solid #eee;
+    border-top: 6px solid #d94862;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 0.8s linear infinite;
+  }
+  
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .filters-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  
+  .filters label {
+    margin-right: 1rem;
+    font-size: 14px;
+    color: #444;
+  }
+  
+  .sort select {
+    margin-left: 0.5rem;
+    padding: 0.3rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }

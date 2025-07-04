@@ -1,0 +1,69 @@
+.jellybean-card {
+  position: relative;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  padding: 16px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.jellybean-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.jellybean-card img {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: contain;
+  margin-bottom: 12px;
+}
+
+.jellybean-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+  color: #333;
+  text-align: center;
+}
+
+.description {
+  position: relative;
+  font-size: 0.95rem;
+  color: #666;
+  text-align: center;
+  margin-bottom: 12px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.description::after {
+  content: attr(data-full);
+  position: absolute;
+  left: 0;
+  top: 100%;
+  margin-top: 8px;
+  width: 100%;
+  background: #f9f9f9;
+  border: 1px solid #ccc;
+  padding: 8px;
+  font-size: 0.85rem;
+  color: #333;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 10;
+  display: none;
+  white-space: normal;
+  border-radius: 6px;
+}
+
+.description:hover::after {
+  display: block;
+}

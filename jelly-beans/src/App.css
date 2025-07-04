@@ -1,0 +1,33 @@
+.jelly-bean-card {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 12px;
+  width: 200px;
+  transition: transform 0.2s;
+}
+
+.jelly-bean-card:hover {
+  transform: scale(1.05);
+}
+
+.attr-icon {
+  margin-right: 5px;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.attr-icon.active {
+  background-color: #4caf50;
+  color: white;
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 1rem;
+}
+
+h1 {
+  font-size: clamp(1.5rem, 2vw + 1rem, 3rem);
+}
