@@ -7,7 +7,7 @@ import './TimiPage.css';
 export default function TimiPage() {
   const [beans, setBeans] = useState<JellyBean[]>([]);
   const [combinations, setCombinations] = useState<CombinationItem[]>([]);
-  const [orangeColorId, setOrangeColorId] = useState<string | null>(null);
+  const [colors, setColors] = useState<Color[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,22 +15,14 @@ export default function TimiPage() {
     const loadData = async () => {
       try {
         const [beansRes, colorsRes, combosRes] = await Promise.all([
-          fetchJellyBeans(1000, 0),
+          fetchJellyBeans(50, 0),
           fetchColors(),
           fetchCombinations(),
         ]);
 
-        const orangeColor = colorsRes.data.find(
-          (c: Color) =>
-            c.colorId.toLowerCase() === 'orange' ||
-            c.colorDescription.toLowerCase().includes('orange')
-        );
-
-        if (!orangeColor) throw new Error('Orange color not found.');
-
         setBeans(beansRes.data);
+        setColors(colorsRes.data);
         setCombinations(combosRes.data);
-        setOrangeColorId(orangeColor.colorId.toLowerCase());
       } catch (err: any) {
         setError(err.message || 'Failed to load data.');
       } finally {
@@ -41,17 +33,38 @@ export default function TimiPage() {
     loadData();
   }, []);
 
-  const orangeBeans = useMemo(
-    () =>
-      beans.filter(
-        (bean) =>
-          orangeColorId && bean.ColorGroup?.toLowerCase() === orangeColorId
-      ),
-    [beans, orangeColorId]
+
+  const orangeColorIds = useMemo(() => {
+    return colors
+      .filter((color) =>
+        color.colorDescription.toLowerCase().includes('orange')
+      )
+      .map((color) => color.colorId.toLowerCase());
+  }, [colors]);
+
+
+  const orangeBeans = useMemo(() => {
+    return beans.filter(
+      (bean) =>
+        bean.ColorGroup &&
+        orangeColorIds.includes(bean.ColorGroup.toLowerCase())
+    );
+  }, [beans, orangeColorIds]);
+
+  const orangeBeanNames = useMemo(
+    () => orangeBeans.map((bean) => bean.FlavorName.toLowerCase()),
+    [orangeBeans]
   );
 
-  if (loading) return <p>Loading Timi's jelly beans...</p>;
-  if (error) return <p>Error: {error}</p>;
+  const timiCombinations = useMemo(() => {
+    return combinations.filter((combo) => {
+      const tagString = combo.TagSerialized?.toLowerCase() || '';
+      return orangeBeanNames.some((name) => tagString.includes(name));
+    });
+  }, [combinations, orangeBeanNames]);
+
+  if (loading) return <p className="loading">Loading Timi's jelly beans...</p>;
+  if (error) return <p className="error">Error: {error}</p>;
 
   return (
     <div className="timi-page">
@@ -69,11 +82,11 @@ export default function TimiPage() {
       )}
 
       <h3>Recommended Combinations 🍬</h3>
-      {combinations.length === 0 ? (
-        <p>No combinations found.</p>
+      {timiCombinations.length === 0 ? (
+        <p>No combinations found that include Timi's beans.</p>
       ) : (
         <div className="combo-grid">
-          {combinations.map((combo) => (
+          {timiCombinations.map((combo) => (
             <div className="combo-card" key={combo.CombinationId}>
               <h4>{combo.Name}</h4>
               <p>{combo.TagSerialized}</p>
