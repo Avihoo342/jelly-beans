@@ -5,8 +5,11 @@ import { fetchJellyBeans } from '../../jellyBeans';
 import JellyBeanCard from '../../components/JellyBeanCard/JellyBeanCard';
 import JellyBeanTable from '../../components/JellyBeanTable/JellyBeanTable';
 import Pagination from '../../components/Pagination/Pagination';
+import { getCache, setCache } from '../../../utils/cacheService';
 
 const PAGE_SIZE = 8;
+const CACHE_KEY = 'jellyBeans';
+const CACHE_TTL_MS = 5 * 60 * 1000;
 
 const initialFilters = {
   GlutenFree: false,
@@ -20,22 +23,26 @@ type SortOption = 'nameAsc' | 'nameDesc' | 'group';
 export default function HomePage() {
   const [beans, setBeans] = useState<JellyBean[]>([]);
   const [loading, setLoading] = useState(false);
-
   const [filters, setFilters] = useState(initialFilters);
   const [sortBy, setSortBy] = useState<SortOption>('nameAsc');
   const [view, setView] = useState<'grid' | 'table'>('grid');
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
+    const cached = getCache<JellyBean[]>(CACHE_KEY);
+    if (cached) {
+      setBeans(cached);
+      return;
+    }
+
     setLoading(true);
-    fetchJellyBeans(1000, 0)
+    fetchJellyBeans(50, 0)
       .then((data) => {
         setBeans(data.data);
-        setLoading(false);
+        setCache(CACHE_KEY, data.data, CACHE_TTL_MS);
       })
-      .catch(() => setLoading(false));
+      .finally(() => setLoading(false));
   }, []);
-
 
   const filteredBeans = useMemo(() => {
     return beans.filter((bean) =>
@@ -44,7 +51,6 @@ export default function HomePage() {
       )
     );
   }, [beans, filters]);
-
 
   const sortedBeans = useMemo(() => {
     return [...filteredBeans].sort((a, b) => {
@@ -55,12 +61,10 @@ export default function HomePage() {
     });
   }, [filteredBeans, sortBy]);
 
-
   const paginatedBeans = useMemo(() => {
     const offset = (currentPage - 1) * PAGE_SIZE;
     return sortedBeans.slice(offset, offset + PAGE_SIZE);
   }, [sortedBeans, currentPage]);
-
 
   const handlePageChange = useCallback((page: number) => {
     setCurrentPage(page);
@@ -68,10 +72,7 @@ export default function HomePage() {
 
   const handleFilterChange = useCallback(
     (attr: keyof typeof filters) => (e: React.ChangeEvent<HTMLInputElement>) => {
-      setFilters((prev) => ({
-        ...prev,
-        [attr]: e.target.checked,
-      }));
+      setFilters((prev) => ({ ...prev, [attr]: e.target.checked }));
       setCurrentPage(1);
     },
     []
@@ -97,11 +98,11 @@ export default function HomePage() {
 
       <section className="filters-section">
         <div className="filters">
-          {Object.keys(filters).map((key) => (
+          {Object.entries(filters).map(([key, value]) => (
             <label key={key}>
               <input
                 type="checkbox"
-                checked={filters[key as keyof typeof filters]}
+                checked={value}
                 onChange={handleFilterChange(key as keyof typeof filters)}
               />
               {key}

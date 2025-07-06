@@ -1,6 +1,10 @@
 import { useEffect, useMemo, useState } from 'react';
 import JellyBeanCard from '../../components/JellyBeanCard/JellyBeanCard';
-import { fetchJellyBeans, fetchColors, fetchCombinations } from '../../../api/jellyBeans';
+import {
+  fetchJellyBeans,
+  fetchColors,
+  fetchCombinations,
+} from '../../../api/jellyBeans';
 import { Color, CombinationItem, JellyBean } from '../../types/jellyBean';
 import './TimiPage.css';
 
@@ -33,7 +37,6 @@ export default function TimiPage() {
     loadData();
   }, []);
 
-
   const orangeColorIds = useMemo(() => {
     return colors
       .filter((color) =>
@@ -41,7 +44,6 @@ export default function TimiPage() {
       )
       .map((color) => color.colorId.toLowerCase());
   }, [colors]);
-
 
   const orangeBeans = useMemo(() => {
     return beans.filter(
@@ -51,15 +53,18 @@ export default function TimiPage() {
     );
   }, [beans, orangeColorIds]);
 
-  const orangeBeanNames = useMemo(
-    () => orangeBeans.map((bean) => bean.FlavorName.toLowerCase()),
-    [orangeBeans]
-  );
+  const orangeBeanNames = useMemo(() => {
+    return orangeBeans
+      .map((bean) => bean.FlavorName?.toLowerCase().trim())
+      .filter(Boolean);
+  }, [orangeBeans]);
 
   const timiCombinations = useMemo(() => {
     return combinations.filter((combo) => {
-      const tagString = combo.TagSerialized?.toLowerCase() || '';
-      return orangeBeanNames.some((name) => tagString.includes(name));
+      const tagString = (combo.TagSerialized || '').toLowerCase();
+      return orangeBeanNames.some((name) =>
+        tagString.includes(name)
+      );
     });
   }, [combinations, orangeBeanNames]);
 
