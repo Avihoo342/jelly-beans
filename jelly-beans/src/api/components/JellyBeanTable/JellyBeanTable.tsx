@@ -1,3 +1,4 @@
+import { memo, useCallback } from 'react';
 import { JellyBean } from '../../../api/types/jellyBean';
 import AttributeIcons from '../AttributeIcons/AttributeIcons';
 import './JellyBeanTable.css';
@@ -6,14 +7,29 @@ interface Props {
   beans: JellyBean[];
 }
 
-export default function JellyBeanTable({ beans }: Props) {
-  const renderBeanRow = (bean: JellyBean) => {
-    const { BeanId, ImageUrl, FlavorName, Description, GlutenFree, SugarFree, Seasonal, Kosher } = bean;
+const HEADERS = ['Image', 'Name', 'Description', 'Attributes'] as const;
+
+function JellyBeanTableComponent({ beans }: Props) {
+  const renderBeanRow = useCallback((bean: JellyBean) => {
+    const {
+      BeanId,
+      ImageUrl,
+      FlavorName,
+      Description,
+      GlutenFree,
+      SugarFree,
+      Seasonal,
+      Kosher,
+    } = bean;
 
     return (
       <tr key={BeanId}>
         <td>
-          <img src={ImageUrl} alt={FlavorName} className="table-image" />
+          <img
+            src={ImageUrl}
+            alt={FlavorName}
+            className="table-image"
+          />
         </td>
         <td>{FlavorName}</td>
         <td title={Description}>
@@ -31,19 +47,20 @@ export default function JellyBeanTable({ beans }: Props) {
         </td>
       </tr>
     );
-  };
+  }, []);
 
   return (
     <table className="jellybean-table">
       <thead>
         <tr>
-          <th>Image</th>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Attributes</th>
+          {HEADERS.map((header) => (
+            <th key={header}>{header}</th>
+          ))}
         </tr>
       </thead>
       <tbody>{beans.map(renderBeanRow)}</tbody>
     </table>
   );
 }
+
+export default memo(JellyBeanTableComponent);
