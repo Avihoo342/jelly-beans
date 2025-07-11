@@ -1,11 +1,11 @@
 import { useEffect, useState, useMemo, useCallback } from 'react';
 import './HomePage.css';
 import { JellyBean } from '../../types/jellyBean';
-import { fetchJellyBeans } from '../../jellyBeans';
+import { fetchJellyBeans } from '../../api/jellyBeans';
 import JellyBeanCard from '../../components/JellyBeanCard/JellyBeanCard';
 import JellyBeanTable from '../../components/JellyBeanTable/JellyBeanTable';
 import Pagination from '../../components/Pagination/Pagination';
-import { getCache, setCache } from '../../../utils/cacheService';
+import { getCache, setCache } from '../../utils/cacheService';
 
 const PAGE_SIZE = 8;
 const CACHE_KEY = 'jellyBeans';

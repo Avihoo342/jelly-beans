@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { JellyBean } from '../../types/jellyBean';
-import { fetchJellyBeans } from '../../jellyBeans';
+import { fetchJellyBeans } from '../../api/jellyBeans';
 import BarChart from '../../components/BarChart/BarChart';
 import './StatsPage.css';
 

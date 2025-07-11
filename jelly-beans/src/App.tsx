@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import HomePage from './api/pages/HomePage/HomePage';
-import TimiPage from './api/pages/TimiPage/TimiPage';
-import StatsPage from './api/pages/StatsPage/StatsPage';
-import TabsNavigation from './api/components/TabsNavigation/TabsNavigation';
+import HomePage from './pages/HomePage/HomePage';
+import TimiPage from './pages/TimiPage/TimiPage';
+import StatsPage from './pages/StatsPage/StatsPage';
+import TabsNavigation from './components/TabsNavigation/TabsNavigation';
 
 function App() {
   return (

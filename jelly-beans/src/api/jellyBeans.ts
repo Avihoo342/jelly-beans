@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ColorsResponse, Combination, JellyBeanResponse } from '../api/types/jellyBean';
+import { ColorsResponse, Combination, JellyBeanResponse } from '../types/jellyBean';
 
 const API_BASE = process.env.REACT_APP_API_URL || 'https://tikal-home-assignment.vercel.app';
 

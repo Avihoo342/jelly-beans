@@ -1,5 +1,5 @@
 import { memo, useCallback } from 'react';
-import { JellyBean } from '../../../api/types/jellyBean';
+import { JellyBean } from '../../types/jellyBean';
 import AttributeIcons from '../AttributeIcons/AttributeIcons';
 import './JellyBeanTable.css';
 
